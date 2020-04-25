@@ -2,12 +2,16 @@
 <html>
 
 <head>
+    <title>
+        {{ roomname }} for {{ username }}
+    </title>
+    <div id="roomname">{{ roomname }}</div>
 </head>
 
 <body>
     <ui id="list">
         <li>
-            what
+
         </li>
     </ui>
     <form>
@@ -28,7 +32,8 @@
 
                     selection = document.getElementById('ui').value;
                     socket.emit('message', {
-                        'message': selection
+                        'message': selection,
+                        'room': document.getElementById("roomname").innerHTML
                     });
 
                 }

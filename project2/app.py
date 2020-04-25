@@ -1,8 +1,8 @@
 import os
 import requests
 
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO, emit
+from flask import Flask, render_template, request, jsonify
+from flask_socketio import SocketIO, emit, join_room
 
 
 app = Flask(__name__)
@@ -30,17 +30,32 @@ def enter():
     if users.get(username) == None :
         p =  User(username)
         users[username] = p 
+    if request.method == "POST":
+        channel = request.form.get("channel name")
+        channels.append(channel)
+    #return render_template("channel.html", users = users, channels = users[username].channels, username=username)
+    return render_template("join.html", channels=channels, username=username)
 
-    return render_template("channel.html", users = users, channels = users[username].channels)
 
-@app.route("/chat")
+@app.route("/newchannel/<string:username>", methods=["POST", "GET"])
+def newchannel(username):
+    print(username + " " + request.form.get("username"))
+    return render_template("chat.html", person1 = username, person2 = request.form.get("username")) 
+
+@app.route("/chat", methods=["POST"])
 def chat():
-    return render_template("chat.html")
+    roomname = request.form.get("channelname")
+    print(roomname)
+    return render_template("chat.html", roomname = roomname)
 
 @socketio.on("message")
 def transmit(data):
     message = data["message"]
+    roomname = data["room"]
+    #roomname="first_room"
     print(message)
-    emit("transmit", {"message": message}, broadcast = True)
+    print(roomname)
+    join_room(roomname)
+    emit("transmit", {"message": message, "roomname": roomname}, room=roomname)
 
 

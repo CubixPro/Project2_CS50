@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Channels
+    </title>
+</head>
+
+<body>
+
+    <ul>
+        {% for channel in channels %}
+        <li>
+            {{ channel }}
+        </li>
+        {% endfor %}
+    </ul>
+    <form action={{ url_for( 'enter') }} method="POST">
+        <input name="channel name" type="text">
+        <button>
+            Add Channel
+        </button>
+    </form>
+    <form action={{ url_for( 'chat') }} method="POST">
+        <select name="channelname">
+            {% for channel in channels %}
+            <option value="{{ channel }}">{{ channel }}</option>
+            {% endfor %}
+        </select>
+        <button>
+            Go
+        </button>
+    </form>
+</body>
+
+</html>
