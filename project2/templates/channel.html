@@ -5,9 +5,14 @@
     <title>
         Channels
     </title>
+
 </head>
 
 <body>
+    <h4>
+        Welcome
+    </h4>
+    <h3 id="username">{{ username }}</h3>
     <ui id="channels">
         {% for channel in channels %}
         <ul>
@@ -15,30 +20,21 @@
         </ul>
         {% endfor %}
     </ui>
-    <select id="users">
+    <form action="{{ url_for('newchannel', username =  username )  }}" method="POST">
+        <select name="username" id="users">
         {% for user in users %}
         <option value="{{ user }}">
             {{ user }}
         </option>
         {% endfor %}
-    </select>
+        </select>
 
-    <button id="ub">
-        Add channel
-    </button>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('ub').onclick = (e) => {
+        <button id="ub">
+              Add channel
+        </button>
+    </form>
 
-                e.preventDefault();
-                var user = document.getElementById("users").options[document.getElementById("users").selectedIndex].value;
-                const li = document.createElement('li');
-                li.innerHTML = user;
-                document.getElementById("channels").append(li);
 
-            }
-        })
-    </script>
 </body>
 
 </html>
