@@ -83,6 +83,9 @@
                 const li = document.createElement('li');
                 li.innerHTML = data.username + ":" + data.message;
                 document.getElementById('list').append(li);
+                var box = document.getElementById('chatbox');
+                box.scrollTop = box.scrollHeight;
+
             })
         });
     </script>
