@@ -15,8 +15,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 users = {} 
-channels = []
-messages = {}
+channels = ["general"]
+messages = {"general":[]}
 class User:
     def __init__(self, name):
         self.status = 'logged in'
@@ -41,7 +41,8 @@ def enter():
         users[username] = p 
     if request.method == "POST":
         channel = request.form.get("channel name")
-        channels.append(channel)
+        if channel != None :
+            channels.append(channel)
     #return render_template("channel.html", users = users, channels = users[username].channels, username=username)
     return render_template("join.html", channels=channels, username=username)
 
@@ -63,10 +64,10 @@ def chat():
 def transmit(data):
     message = data["message"]
     roomname = data["room"]
-    #roomname="first_room"
     #print(message)
     #print(roomname)
     #print(session['username'])
+    print(messages[roomname])
     join_room(roomname)
     if messages.get(roomname) == None:
         messages[roomname] = [] 
@@ -74,3 +75,5 @@ def transmit(data):
     emit("transmit", {"message": message, "roomname": roomname, "username": session['username']}, room=roomname)
 
 
+if __name__ == "___main__":
+        app.run()
