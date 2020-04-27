@@ -56,7 +56,7 @@ def chat():
     roomname = request.form.get("channelname")
     print(roomname)
     if messages.get(roomname) == None:
-        messages[roomname] = {}
+        messages[roomname] = [] 
     return render_template("chat.html", roomname = roomname, username=session['username'], messages=messages[roomname])
 
 @socketio.on("message")
@@ -67,11 +67,12 @@ def transmit(data):
     #print(message)
     #print(roomname)
     #print(session['username'])
+    print(session)
     print(messages[roomname])
     join_room(roomname)
     if messages.get(roomname) == None:
         messages[roomname] = [] 
-    #messages[roomname].append(message)
+    messages[roomname].append(session['username']+":"+message)
     emit("transmit", {"message": message, "roomname": roomname, "username": session['username']}, room=roomname)
 
 
