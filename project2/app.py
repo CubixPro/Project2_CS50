@@ -67,8 +67,6 @@ def transmit(data):
     #print(message)
     #print(roomname)
     #print(session['username'])
-    print(session)
-    print(messages[roomname])
     join_room(roomname)
     if messages.get(roomname) == None:
         messages[roomname] = [] 
