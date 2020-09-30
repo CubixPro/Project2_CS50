@@ -69,8 +69,20 @@ def transmit(data):
     #print(session['username'])
     print(messages[roomname])
     join_room(roomname)
-    if messages.get(roomname) == None:
-        messages[roomname] = [] 
+    @socketio.on("message")
+def transmit(data):
+    message = data["message"]
+    roomname = data["room"]
+    #print(message)
+    #print(roomname)
+    #print(session['username'])
+    print(messages[roomname])
+    join_room(roomname)
+ 
+    messages[roomname].append(session['username']+":"+message)
+    emit("transmit", {"message": message, "roomname": roomname, "username": session['username']}, room=roomname)
+
+
     messages[roomname].append(session['username']+":"+message)
     emit("transmit", {"message": message, "roomname": roomname, "username": session['username']}, room=roomname)
 
