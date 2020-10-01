@@ -78,7 +78,10 @@ def transmit(data):
     #print(session['username'])
     print(messages[roomname])
     join_room(roomname)
- 
+    
+    if messages.get(roomname) == None:
+        messages[roomname] = []
+
     messages[roomname].append(session['username']+":"+message)
     emit("transmit", {"message": message, "roomname": roomname, "username": session['username']}, room=roomname)
 
